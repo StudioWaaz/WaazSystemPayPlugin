@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: Waaz\SystemPayPlugin
+        psr4_prefix: Waaz\SystemPayPlugin

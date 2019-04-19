@@ -1,0 +1,5 @@
+services:
+    waaz.system_pay_plugin.mocker.system_pay:
+        class: Tests\Waaz\SystemPayPlugin\Behat\Mocker\SystemPayMocker
+        arguments:
+            - '@sylius.behat.mocker'

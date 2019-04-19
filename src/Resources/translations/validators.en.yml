@@ -1,0 +1,10 @@
+bitbag:
+    system_pay:
+        merchant_id:
+            not_blank: Please enter the Merchant ID.
+        key_version:
+            not_blank: Please enter the Key version.
+        secure_key:
+            not_blank: Please enter the Security Code.
+        channel:
+            currency: The only allowed currency is EUR.

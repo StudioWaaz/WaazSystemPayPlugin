@@ -1,0 +1,14 @@
+services:
+    waaz.system_pay_plugin.page.external:
+        class: Tests\Waaz\SystemPayPlugin\Behat\Page\External\SystemPayCheckoutPage
+        parent: 'sylius.behat.page'
+        public: 'false'
+        arguments:
+            - '@__symfony__.sylius.repository.payment_security_token'
+
+    waaz.system_pay_plugin.page.admin.payment_method.create:
+        class: Tests\Waaz\SystemPayPlugin\Behat\Page\Admin\PaymentMethod\CreatePage
+        parent: 'sylius.behat.page.admin.crud.create'
+        public: 'false'
+        arguments:
+            - 'sylius_admin_payment_method_create'

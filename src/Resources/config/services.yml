@@ -1,0 +1,44 @@
+services:
+    waaz.system_pay.form.type.gateway_configuration:
+        class: Waaz\SystemPayPlugin\Form\Type\SystemPayGatewayConfigurationType
+        public: true
+        tags:
+            - { name: sylius.gateway_configuration_type, type: system_pay, label: waaz.system_pay.gateway_label }
+            - { name: form.type }
+
+    waaz.system_pay.gateway_factory:
+        class: Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder
+        public: true
+        arguments: [Waaz\SystemPayPlugin\SystemPayGatewayFactory]
+        tags:
+            - { name: payum.gateway_factory_builder, factory: system_pay }
+
+    waaz.system_pay.action.capture:
+        class: Waaz\SystemPayPlugin\Action\CaptureAction
+        public: true
+        arguments:
+            - '@payum'
+        tags:
+            - { name: payum.action, factory: system_pay, alias: payum.action.capture }
+
+    waaz.system_pay.action.notify:
+        class: Waaz\SystemPayPlugin\Action\NotifyAction
+        public: true
+        arguments:
+            - '@sm.factory'
+        tags:
+            - { name: payum.action, factory: system_pay, alias: payum.action.notify }
+
+    waaz.system_pay.action.status:
+        class: Waaz\SystemPayPlugin\Action\StatusAction
+        public: true
+        arguments:
+            - '@request_stack'
+        tags:
+            - { name: payum.action, factory: system_pay, alias: payum.action.status }
+
+    waaz.system_pay.bridge.system_pay_bridge:
+        class: Waaz\SystemPayPlugin\Bridge\SystemPayBridge
+        public: true
+        arguments:
+            - '@request_stack'

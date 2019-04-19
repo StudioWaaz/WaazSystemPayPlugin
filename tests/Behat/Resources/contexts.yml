@@ -1,0 +1,36 @@
+services:
+    waaz.system_pay_plugin.context.setup.system_pay:
+        class: Tests\Waaz\SystemPayPlugin\Behat\Context\Setup\SystemPayContext
+        arguments:
+            - '@sylius.behat.shared_storage'
+            - '@__symfony__.sylius.repository.payment_method'
+            - '@__symfony__.sylius.fixture.example_factory.payment_method'
+            - '@__symfony__.sylius.factory.payment_method_translation'
+            - '@__symfony__.sylius.manager.payment_method'
+
+        tags:
+            - { name: fob.context_service }
+
+    waaz.system_pay_plugin.context.ui.shop.system_pay:
+        class: Tests\Waaz\SystemPayPlugin\Behat\Context\Ui\Shop\SystemPayContext
+        arguments:
+            - '@waaz.system_pay_plugin.mocker.system_pay'
+            - '@sylius.behat.page.shop.checkout.complete'
+            - '@waaz.system_pay_plugin.page.external'
+            - '@sylius.behat.page.shop.order.show'
+        tags:
+            - { name: fob.context_service }
+
+    waaz.system_pay_plugin.context.setup.channel:
+        class: Tests\Waaz\SystemPayPlugin\Behat\Context\Setup\ChannelContext
+        arguments:
+            - '@__symfony__.sylius.behat.factory.default_channel'
+        tags:
+            - { name: fob.context_service }
+
+    waaz.system_pay_plugin.context.ui.admin.managing_payment_methods:
+        class: Tests\Waaz\SystemPayPlugin\Behat\Context\Ui\Admin\ManagingPaymentMethodsContext
+        arguments:
+            - '@waaz.system_pay_plugin.page.admin.payment_method.create'
+        tags:
+            - { name: fob.context_service }
