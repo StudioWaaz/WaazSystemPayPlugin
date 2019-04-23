@@ -99,6 +99,26 @@ class SystemPay
         return $signature;
     }
 
+    /**
+     * @param array $postdata
+     * @return array
+     */
+    public function responseHandler($postdata)
+    {
+      //$postdata = $request->request->all();
+      // Check signature
+      if (!empty($postdata['signature']))
+      {
+          $signature = $postdata['signature'];
+          unset ($postdata['signature']);
+          if ($signature == $this->getSignature($postdata))
+          {
+              return true;
+          }
+      }
+      return false;
+    }
+
     public function executeRequest()
     {
         $return = "<html><body><form name=\"redirectForm\" method=\"POST\" action=\"" . $this->paymentUrl . "\">";

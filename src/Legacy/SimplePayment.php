@@ -92,7 +92,7 @@ final class SimplePayment
           'currency' => CurrencyNumber::getByCode($this->currency),
           'trans_id' => sprintf('%06d', $this->transactionReference),
           'url_return' => $this->targetUrl,
-          //'url_check' => $this->automaticResponseUrl,
+          'url_check' => $this->automaticResponseUrl,
           'action_mode' => 'INTERACTIVE',
           'page_action'=> 'PAYMENT',
           'payment_config' => 'SINGLE'

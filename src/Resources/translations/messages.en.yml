@@ -1,10 +1,10 @@
-bitbag:
+waaz:
     system_pay:
         environment: Environment
         secure_key: Secure key
         merchant_id: Merchant ID
         key_version: Key version
-        gateway_label: Mercanet BNP Paribas
+        gateway_label: System Pay
         production: Production
         test: Test
         simulation: Simulation

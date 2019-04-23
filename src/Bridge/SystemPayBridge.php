@@ -62,9 +62,8 @@ final class SystemPayBridge implements SystemPayBridgeInterface
         if ($this->isPostMethod()) {
 
             $paymentResponse = new SystemPay($this->secretKey);
-            $paymentResponse->setResponse($_POST);
-
-            return $paymentResponse->isValid();
+            $postdata = $this->getPostData();
+            return $paymentResponse->responseHandler($postdata);
         }
 
         return false;
@@ -79,6 +78,16 @@ final class SystemPayBridge implements SystemPayBridgeInterface
 
         return $currentRequest->isMethod('POST');
     }
+
+    /**
+     * @return array
+     */
+     public function getPostData()
+     {
+       $currentRequest = $this->requestStack->getCurrentRequest();
+
+       return $currentRequest->request->all();
+     }
 
     /**
      * @return string

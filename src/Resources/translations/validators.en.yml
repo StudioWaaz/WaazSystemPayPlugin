@@ -1,4 +1,4 @@
-bitbag:
+waaz:
     system_pay:
         merchant_id:
             not_blank: Please enter the Merchant ID.
