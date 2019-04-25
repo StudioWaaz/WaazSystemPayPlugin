@@ -67,7 +67,7 @@ final class SystemPayBridge implements SystemPayBridgeInterface
             $this->logger->info('Post = true');
             $paymentResponse = new SystemPay($this->secretKey);
             $postdata = $this->getPostData();
-            $this->logger->info('Postdata '.$postdata);
+            $this->logger->info('Postdata '.json_encode($postdata));
             return $paymentResponse->responseHandler($postdata);
         }
 

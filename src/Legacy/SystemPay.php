@@ -107,12 +107,11 @@ class SystemPay
     {
       //$postdata = $request->request->all();
       // Check signature
-      if (!empty($postdata['signature']))
-      {
+      if (!empty($postdata['signature'])) {
           $signature = $postdata['signature'];
           unset ($postdata['signature']);
-          if ($signature == $this->getSignature($postdata))
-          {
+          if ($signature === $this->getSignature($postdata)
+            && $postdata['vads_trans_status'] === "AUTHORISED") {
               return true;
           }
       }
