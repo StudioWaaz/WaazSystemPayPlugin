@@ -18,6 +18,7 @@ services:
         public: true
         arguments:
             - '@payum'
+            - '@logger'
         tags:
             - { name: payum.action, factory: system_pay, alias: payum.action.capture }
 

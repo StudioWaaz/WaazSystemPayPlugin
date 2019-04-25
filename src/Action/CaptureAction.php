@@ -23,9 +23,9 @@ use Payum\Core\Security\TokenInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Webmozart\Assert\Assert;
 use Payum\Core\Payum;
+use Psr\Log\LoggerInterface;
 
 /**
- * @author Ibes Mongabure <developpement@studiowaaz.com>
  * @author Ibes Mongabure <developpement@studiowaaz.com>
  */
 final class CaptureAction implements ActionInterface, ApiAwareInterface
@@ -42,12 +42,15 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
      */
     private $systemPayBridge;
 
+    private $logger;
+
     /**
      * @param Payum $payum
      */
-    public function __construct(Payum $payum)
+    public function __construct(Payum $payum, LoggerInterface $logger)
     {
         $this->payum = $payum;
+        $this->logger = $logger;
     }
 
     /**
@@ -104,7 +107,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
 
         $secretKey = $this->systemPayBridge->getSecretKey();
 
-        $mercanet = $this->systemPayBridge->createSystemPay($secretKey);
+        $systemPay = $this->systemPayBridge->createSystemPay($secretKey);
 
         $environment = $this->systemPayBridge->getEnvironment();
         $merchantId = $this->systemPayBridge->getMerchantId();
@@ -119,7 +122,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         $model['transactionReference'] = $transactionReference;
 
         $simplePayment = new SimplePayment(
-            $mercanet,
+            $systemPay,
             $merchantId,
             $environment,
             $amount,
@@ -128,6 +131,14 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
             $transactionReference,
             $automaticResponseUrl
         );
+
+        $this->logger->info($merchantId);
+        $this->logger->info($environment);
+        $this->logger->info($amount);
+        $this->logger->info($targetUrl);
+        $this->logger->info($currencyCode);
+        $this->logger->info($transactionReference);
+        $this->logger->info($automaticResponseUrl);
 
         $request->setModel($model);
         $simplePayment->execute();

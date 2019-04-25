@@ -65,7 +65,7 @@ final class SystemPayBridge implements SystemPayBridgeInterface
         $this->logger->info('Test autoresponse');
         if ($this->isPostMethod()) {
             $this->logger->info('Post = true');
-            $paymentResponse = new SystemPay($this->secretKey);
+            $paymentResponse = $this->createSystemPay($this->secretKey);
             $postdata = $this->getPostData();
             $this->logger->info('Postdata '.json_encode($postdata));
             return $paymentResponse->responseHandler($postdata);
