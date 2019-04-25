@@ -12,7 +12,7 @@ namespace Waaz\SystemPayPlugin\Bridge;
 
 use Waaz\SystemPayPlugin\Legacy\SystemPay;
 use Symfony\Component\HttpFoundation\RequestStack;
-
+use Psr\Log\LoggerInterface;
 /**
  * @author Ibes Mongabure <developpement@studiowaaz.com>
  */
@@ -38,12 +38,15 @@ final class SystemPayBridge implements SystemPayBridgeInterface
      */
     private $environment;
 
+    private $logger;
+
     /**
      * @param RequestStack $requestStack
      */
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, LoggerInterface $logger)
     {
         $this->requestStack = $requestStack;
+        $this->logger = $logger;
     }
 
     /**
@@ -59,10 +62,12 @@ final class SystemPayBridge implements SystemPayBridgeInterface
      */
     public function paymentVerification()
     {
+        $this->logger->info('Test autoresponse');
         if ($this->isPostMethod()) {
-
+            $this->logger->info('Post = true');
             $paymentResponse = new SystemPay($this->secretKey);
             $postdata = $this->getPostData();
+            $this->logger->info('Postdata '.$postdata);
             return $paymentResponse->responseHandler($postdata);
         }
 
