@@ -23,7 +23,6 @@ use Payum\Core\Security\TokenInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Webmozart\Assert\Assert;
 use Payum\Core\Payum;
-use Psr\Log\LoggerInterface;
 
 /**
  * @author Ibes Mongabure <developpement@studiowaaz.com>
@@ -42,15 +41,12 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
      */
     private $systemPayBridge;
 
-    private $logger;
-
     /**
      * @param Payum $payum
      */
-    public function __construct(Payum $payum, LoggerInterface $logger)
+    public function __construct(Payum $payum)
     {
         $this->payum = $payum;
-        $this->logger = $logger;
     }
 
     /**
@@ -131,14 +127,6 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
             $transactionReference,
             $automaticResponseUrl
         );
-
-        $this->logger->info($merchantId);
-        $this->logger->info($environment);
-        $this->logger->info($amount);
-        $this->logger->info($targetUrl);
-        $this->logger->info($currencyCode);
-        $this->logger->info($transactionReference);
-        $this->logger->info($automaticResponseUrl);
 
         $request->setModel($model);
         $simplePayment->execute();
