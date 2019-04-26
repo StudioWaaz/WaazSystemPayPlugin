@@ -23,6 +23,7 @@ use Payum\Core\Security\TokenInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Webmozart\Assert\Assert;
 use Payum\Core\Payum;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @author Ibes Mongabure <developpement@studiowaaz.com>
@@ -42,11 +43,17 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
     private $systemPayBridge;
 
     /**
+     * @var UrlGeneratorInterface
+     */
+     private $router;
+
+    /**
      * @param Payum $payum
      */
-    public function __construct(Payum $payum)
+    public function __construct(Payum $payum, UrlGeneratorInterface $router)
     {
         $this->payum = $payum;
+        $this->router = $router;
     }
 
     /**
@@ -110,7 +117,11 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
 
         $automaticResponseUrl = $notifyToken->getTargetUrl();
         $currencyCode = $payment->getCurrencyCode();
-        $targetUrl = $request->getToken()->getTargetUrl();
+
+        $targetUrl = $this->router->generate('sylius_shop_order_thank_you', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $cancelUrl = $this->router->generate('sylius_shop_order_show', ['tokenValue' => $payment->getOrder()->getTokenValue()], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        //$targetUrl = $request->getToken()->getTargetUrl();
         $amount = $payment->getAmount();
 
         $transactionReference = $payment->getOrder()->getId();
@@ -125,7 +136,8 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
             $targetUrl,
             $currencyCode,
             $transactionReference,
-            $automaticResponseUrl
+            $automaticResponseUrl,
+            $cancelUrl
         );
 
         $request->setModel($model);

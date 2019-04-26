@@ -53,6 +53,16 @@ final class SimplePayment
     private $automaticResponseUrl;
 
     /**
+     * @var string
+     */
+    private $targetUrl;
+
+    /**
+     * @var string
+     */
+    private $cancelUrl;
+
+    /**
      * @param SystemPay $systemPay
      * @param $merchantId
      * @param $environment
@@ -70,7 +80,8 @@ final class SimplePayment
         $targetUrl,
         $currency,
         $transactionReference,
-        $automaticResponseUrl
+        $automaticResponseUrl,
+        $cancelUrl
     )
     {
         $this->automaticResponseUrl = $automaticResponseUrl;
@@ -81,6 +92,7 @@ final class SimplePayment
         $this->amount = $amount;
         $this->currency = $currency;
         $this->targetUrl = $targetUrl;
+        $this->cancelUrl = $cancelUrl;
     }
 
     public function execute()
@@ -91,8 +103,10 @@ final class SimplePayment
           'amount' => $this->amount,
           'currency' => CurrencyNumber::getByCode($this->currency),
           'trans_id' => sprintf('%06d', $this->transactionReference),
-          //'url_return' => $this->targetUrl,
-          'url_return' => $this->automaticResponseUrl,
+          'url_error' => $this->cancelUrl,
+          'url_refused' => $this->cancelUrl,
+          'url_cancel' => $this->cancelUrl,
+          'url_success' => $this->targetUrl,
           'url_check' => $this->automaticResponseUrl,
           'action_mode' => 'INTERACTIVE',
           'page_action'=> 'PAYMENT',
