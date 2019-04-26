@@ -50,9 +50,10 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
     /**
      * @param Payum $payum
      */
-    public function __construct(Payum $payum, UrlGeneratorInterface $router)
+    public function __construct(Payum $payum, SystemPayBridgeInterface $systemPayBridge, UrlGeneratorInterface $router)
     {
         $this->payum = $payum;
+        $this->systemPayBridge = $systemPayBridge;
         $this->router = $router;
     }
 

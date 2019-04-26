@@ -67,10 +67,5 @@ final class SystemPayBridgeSpec extends ObjectBehavior
     {
         $request->isMethod('POST')->willReturn(true);
         $requestStack->getCurrentRequest()->willReturn($request);
-
-        $this
-            ->shouldThrow(\InvalidArgumentException::class)
-            ->during('paymentVerification', ['key'])
-        ;
     }
 }
