@@ -102,13 +102,14 @@ final class SimplePayment
           'ctx_mode' => $this->environment,
           'amount' => $this->amount,
           'currency' => CurrencyNumber::getByCode($this->currency),
-          'trans_id' => sprintf('%06d', $this->transactionReference),
+          'trans_id' => $this->generateUniqueTransId(),
           'url_return' => $this->cancelUrl,
           'url_success' => $this->targetUrl,
           'url_check' => $this->automaticResponseUrl,
           'action_mode' => 'INTERACTIVE',
           'page_action'=> 'PAYMENT',
-          'payment_config' => 'SINGLE'
+          'payment_config' => 'SINGLE',
+          'order_id' => $this->transactionReference
         ]);
 
 
@@ -116,5 +117,11 @@ final class SimplePayment
         $response = $this->systemPay->executeRequest();
 
         throw new HttpResponse($response);
+    }
+
+    private function generateUniqueTransId() {
+      $range = range(0, 899999);
+      shuffle($range);
+      return sprintf('%06d', $range[0]);
     }
 }
