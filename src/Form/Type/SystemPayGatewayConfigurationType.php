@@ -10,7 +10,6 @@
 
 namespace Waaz\SystemPayPlugin\Form\Type;
 
-use Waaz\SystemPayPlugin\Legacy\Mercanet;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -55,7 +54,7 @@ final class SystemPayGatewayConfigurationType extends AbstractType
                     ])
                 ],
             ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event) {
                 $data = $event->getData();
                 $data['payum.http_client'] = '@waaz.system_pay.bridge.system_pay_bridge';
                 $event->setData($data);
