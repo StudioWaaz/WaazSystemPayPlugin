@@ -25,6 +25,7 @@ class SystemPay
         'redirect_success_message' => null,
         'redirect_error_message' => null,
         'url_return' => null,
+        'payment_cards' => null,
     );
 
     /**

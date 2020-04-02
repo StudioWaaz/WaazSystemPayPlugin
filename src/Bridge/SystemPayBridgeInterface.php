@@ -10,7 +10,7 @@
 
 namespace Waaz\SystemPayPlugin\Bridge;
 
-use Waaz\SystemPayPlugin\Legacy\SimplePay;
+use Waaz\SystemPayPlugin\Legacy\SystemPay;
 
 /**
  * @author Ibes Mongabure <developpement@studiowaaz.com>
@@ -20,7 +20,7 @@ interface SystemPayBridgeInterface
     /**
      * @param string $secretKey
      *
-     * @return SimplePay
+     * @return SystemPay
      */
     public function createSystemPay($secretKey);
 
@@ -63,4 +63,14 @@ interface SystemPayBridgeInterface
      * @param string $environment
      */
     public function setEnvironment($environment);
+
+    /**
+     * @return string
+     */
+    public function getPaymentCards();
+
+    /**
+     * @param string $paymentCards
+     */
+    public function setPaymentCards($paymentCards);
 }

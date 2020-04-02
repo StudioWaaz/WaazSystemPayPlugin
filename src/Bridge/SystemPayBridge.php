@@ -38,6 +38,11 @@ final class SystemPayBridge implements SystemPayBridgeInterface
     private $environment;
 
     /**
+     * @var string
+     */
+    private $paymentCards;
+
+    /**
      * @param RequestStack $requestStack
      */
     public function __construct(RequestStack $requestStack)
@@ -133,5 +138,21 @@ final class SystemPayBridge implements SystemPayBridgeInterface
     public function setEnvironment($environment)
     {
         $this->environment = $environment;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPaymentCards()
+    {
+        return $this->paymentCards;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPaymentCards($paymentCards)
+    {
+        $this->paymentCards = $paymentCards;
     }
 }

@@ -54,6 +54,10 @@ final class SystemPayGatewayConfigurationType extends AbstractType
                     ])
                 ],
             ])
+            ->add('payment_cards', TextType::class, [
+                'required' => false,
+                'label' => 'waaz.system_pay.payment_cards',
+            ])
             ->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event) {
                 $data = $event->getData();
                 $data['payum.http_client'] = '@waaz.system_pay.bridge.system_pay_bridge';

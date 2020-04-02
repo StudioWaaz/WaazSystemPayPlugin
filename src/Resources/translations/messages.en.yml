@@ -8,3 +8,4 @@ waaz:
         production: Production
         test: Test
         simulation: Simulation
+        payment_cards: Payment methods (Empty => tous les moyens de paiement éligibles)

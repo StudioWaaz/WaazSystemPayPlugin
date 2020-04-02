@@ -35,6 +35,11 @@ final class SimplePayment
     /**
      * @var string
      */
+    private $paymentCards;
+
+    /**
+     * @var string
+     */
     private $amount;
 
     /**
@@ -65,16 +70,19 @@ final class SimplePayment
     /**
      * @param SystemPay $systemPay
      * @param $merchantId
+     * @param $paymentCards
      * @param $environment
      * @param $amount
      * @param $targetUrl
      * @param $currency
      * @param $transactionReference
      * @param $automaticResponseUrl
+     * @param $cancelUrl
      */
     public function __construct(
         SystemPay $systemPay,
         $merchantId,
+        $paymentCards,
         $environment,
         $amount,
         $targetUrl,
@@ -89,6 +97,7 @@ final class SimplePayment
         $this->systemPay = $systemPay;
         $this->environment = $environment;
         $this->merchantId = $merchantId;
+        $this->paymentCards = $paymentCards;
         $this->amount = $amount;
         $this->currency = $currency;
         $this->targetUrl = $targetUrl;
@@ -99,6 +108,7 @@ final class SimplePayment
     {
         $this->systemPay->setFields([
           'site_id' => $this->merchantId,
+          'payment_cards' => $this->paymentCards,
           'ctx_mode' => $this->environment,
           'amount' => $this->amount,
           'currency' => CurrencyNumber::getByCode($this->currency),
