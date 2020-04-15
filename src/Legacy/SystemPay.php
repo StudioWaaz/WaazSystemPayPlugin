@@ -19,13 +19,13 @@ class SystemPay
         'action_mode' => null,
         'ctx_mode' => null,
         'page_action' => null,
+        'payment_cards' => null,
         'payment_config' => null,
         'site_id' => null,
         'version' => 'V2',
         'redirect_success_message' => null,
         'redirect_error_message' => null,
         'url_return' => null,
-        'payment_cards' => null,
     );
 
     /**
