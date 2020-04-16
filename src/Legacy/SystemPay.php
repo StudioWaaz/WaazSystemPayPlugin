@@ -111,9 +111,9 @@ class SystemPay
         $contenu_signature .= $this->key;
 
         if ($this->useOldSecurity) {
-            $signature = sha1(utf8_encode($contenu_signature));
+            $signature = sha1($contenu_signature);
         } else {
-            $signature = base64_encode(hash_hmac('sha256', utf8_encode($contenu_signature), $this->key, true));
+            $signature = base64_encode(hash_hmac('sha256', $contenu_signature, $this->key, true));
         }
 
         return $signature;
