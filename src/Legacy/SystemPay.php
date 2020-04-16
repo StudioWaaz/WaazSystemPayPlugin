@@ -33,6 +33,11 @@ class SystemPay
      */
     private $key;
 
+    /**
+     * @var bool
+     */
+    private $useOldSecurity;
+
     public function __construct($key)
     {
         $this->key = $key;
@@ -52,6 +57,14 @@ class SystemPay
             if (empty($this->mandatoryFields[$field]) || $field == 'payment_config')
                 $this->mandatoryFields[$field] = $value;
         return $this;
+    }
+
+    /**
+     * @param bool $useOldSecurity
+     */
+    public function setUseOldSecurity($useOldSecurity)
+    {
+        $this->useOldSecurity = $useOldSecurity;
     }
 
     /**
@@ -96,7 +109,13 @@ class SystemPay
         foreach ($fields as $field => $value)
                 $contenu_signature .= $value."+";
         $contenu_signature .= $this->key;
-        $signature = base64_encode(hash_hmac('sha256', $contenu_signature, $this->key, true));
+
+        if ($this->useOldSecurity) {
+            $signature = sha1(utf8_encode($contenu_signature));
+        } else {
+            $signature = base64_encode(hash_hmac('sha256', utf8_encode($contenu_signature), $this->key, true));
+        }
+
         return $signature;
     }
 

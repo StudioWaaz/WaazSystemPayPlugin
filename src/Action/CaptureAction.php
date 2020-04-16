@@ -116,6 +116,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         $environment = $this->systemPayBridge->getEnvironment();
         $merchantId = $this->systemPayBridge->getMerchantId();
         $paymentCards = $this->systemPayBridge->getPaymentCards();
+        $useOldSecurity = $this->systemPayBridge->useOldSecurity();
 
         $automaticResponseUrl = $notifyToken->getTargetUrl();
         $currencyCode = $payment->getCurrencyCode();
@@ -135,6 +136,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
             $merchantId,
             $paymentCards,
             $environment,
+            $useOldSecurity,
             $amount,
             $targetUrl,
             $currencyCode,

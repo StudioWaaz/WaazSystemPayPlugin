@@ -43,6 +43,11 @@ final class SystemPayBridge implements SystemPayBridgeInterface
     private $paymentCards;
 
     /**
+     * @var bool
+     */
+    private $useOldSecurity;
+
+    /**
      * @param RequestStack $requestStack
      */
     public function __construct(RequestStack $requestStack)
@@ -154,5 +159,21 @@ final class SystemPayBridge implements SystemPayBridgeInterface
     public function setPaymentCards($paymentCards)
     {
         $this->paymentCards = $paymentCards;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function useOldSecurity()
+    {
+        return $this->useOldSecurity;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUseOldSecurity($useOldSecurity)
+    {
+        $this->useOldSecurity = $useOldSecurity;
     }
 }

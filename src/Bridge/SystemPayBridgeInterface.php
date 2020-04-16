@@ -73,4 +73,14 @@ interface SystemPayBridgeInterface
      * @param string $paymentCards
      */
     public function setPaymentCards($paymentCards);
+
+    /**
+     * @return bool
+     */
+    public function useOldSecurity();
+
+    /**
+     * @param bool $useOldSecurity
+     */
+    public function setUseOldSecurity($useOldSecurity);
 }

@@ -28,6 +28,11 @@ final class SimplePayment
     private $environment;
 
     /**
+     * @var bool
+     */
+    private $useOldSecurity;
+
+    /**
      * @var string
      */
     private $merchantId;
@@ -72,6 +77,7 @@ final class SimplePayment
      * @param $merchantId
      * @param $paymentCards
      * @param $environment
+     * @param $useOldSecurity
      * @param $amount
      * @param $targetUrl
      * @param $currency
@@ -84,6 +90,7 @@ final class SimplePayment
         $merchantId,
         $paymentCards,
         $environment,
+        $useOldSecurity,
         $amount,
         $targetUrl,
         $currency,
@@ -96,6 +103,7 @@ final class SimplePayment
         $this->transactionReference = $transactionReference;
         $this->systemPay = $systemPay;
         $this->environment = $environment;
+        $this->useOldSecurity = $useOldSecurity;
         $this->merchantId = $merchantId;
         $this->paymentCards = $paymentCards;
         $this->amount = $amount;
@@ -106,6 +114,7 @@ final class SimplePayment
 
     public function execute()
     {
+        $this->systemPay->setUseOldSecurity($this->useOldSecurity);
         $this->systemPay->setFields([
           'site_id' => $this->merchantId,
           'payment_cards' => $this->paymentCards,
