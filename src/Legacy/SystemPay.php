@@ -121,7 +121,7 @@ class SystemPay
 
     /**
      * @param array $postdata
-     * @return array
+     * @return bool
      */
     public function responseHandler($postdata)
     {
@@ -130,6 +130,13 @@ class SystemPay
       if (!empty($postdata['signature'])) {
           $signature = $postdata['signature'];
           unset ($postdata['signature']);
+
+          /*
+           * Detect if the signature is a SHA-1 or not. If it's the case, we are using the old security algorithm.
+           * With the new algorithm SHA-256, the signature is also base64_encode, so the regex will not match.
+           */
+          $this->setUseOldSecurity((bool) preg_match('/^[0-9a-f]{40}$/i', $signature));
+
           if ($signature === $this->getSignature($postdata)
             && $postdata['vads_trans_status'] === "AUTHORISED") {
               return true;
