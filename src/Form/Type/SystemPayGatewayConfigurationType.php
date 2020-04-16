@@ -10,9 +10,10 @@
 
 namespace Waaz\SystemPayPlugin\Form\Type;
 
-use Waaz\SystemPayPlugin\Legacy\Mercanet;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -55,7 +56,15 @@ final class SystemPayGatewayConfigurationType extends AbstractType
                     ])
                 ],
             ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->add('payment_cards', TextType::class, [
+                'required' => false,
+                'label' => 'waaz.system_pay.payment_cards',
+            ])
+            ->add('use_old_security', CheckboxType::class, [
+                'required' => false,
+                'label' => 'waaz.system_pay.use_old_security',
+            ])
+            ->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event) {
                 $data = $event->getData();
                 $data['payum.http_client'] = '@waaz.system_pay.bridge.system_pay_bridge';
                 $event->setData($data);

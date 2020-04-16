@@ -28,9 +28,19 @@ final class SimplePayment
     private $environment;
 
     /**
+     * @var bool
+     */
+    private $useOldSecurity;
+
+    /**
      * @var string
      */
     private $merchantId;
+
+    /**
+     * @var string
+     */
+    private $paymentCards;
 
     /**
      * @var string
@@ -65,17 +75,22 @@ final class SimplePayment
     /**
      * @param SystemPay $systemPay
      * @param $merchantId
+     * @param $paymentCards
      * @param $environment
+     * @param $useOldSecurity
      * @param $amount
      * @param $targetUrl
      * @param $currency
      * @param $transactionReference
      * @param $automaticResponseUrl
+     * @param $cancelUrl
      */
     public function __construct(
         SystemPay $systemPay,
         $merchantId,
+        $paymentCards,
         $environment,
+        $useOldSecurity,
         $amount,
         $targetUrl,
         $currency,
@@ -88,7 +103,9 @@ final class SimplePayment
         $this->transactionReference = $transactionReference;
         $this->systemPay = $systemPay;
         $this->environment = $environment;
+        $this->useOldSecurity = $useOldSecurity;
         $this->merchantId = $merchantId;
+        $this->paymentCards = $paymentCards;
         $this->amount = $amount;
         $this->currency = $currency;
         $this->targetUrl = $targetUrl;
@@ -97,8 +114,10 @@ final class SimplePayment
 
     public function execute()
     {
+        $this->systemPay->setUseOldSecurity($this->useOldSecurity);
         $this->systemPay->setFields([
           'site_id' => $this->merchantId,
+          'payment_cards' => $this->paymentCards,
           'ctx_mode' => $this->environment,
           'amount' => $this->amount,
           'currency' => CurrencyNumber::getByCode($this->currency),

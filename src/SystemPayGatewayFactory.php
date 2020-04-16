@@ -38,13 +38,15 @@ final class SystemPayGatewayFactory extends GatewayFactory
             $config['payum.default_options'] = [
                 'environment' => '',
                 'secure_key' => '',
-                'merchant_id' => ''
+                'merchant_id' => '',
+                'payment_cards' => '',
+                'use_old_security' => false,
             ];
 
             $config->defaults($config['payum.default_options']);
             $config['payum.required_options'] = ['secret_key', 'environment', 'merchant_id'];
 
-            $config['payum.api'] = function (ArrayObject $config) {
+            $config['payum.api'] = static function (ArrayObject $config) {
                 $config->validateNotEmpty($config['payum.required_options']);
 
                 /** @var SystemPayBridgeInterface $systemPayBridge */
@@ -52,7 +54,12 @@ final class SystemPayGatewayFactory extends GatewayFactory
 
                 $systemPayBridge->setSecretKey($config['secret_key']);
                 $systemPayBridge->setMerchantId($config['merchant_id']);
+                $systemPayBridge->setPaymentCards($config['payment_cards']);
                 $systemPayBridge->setEnvironment($config['environment']);
+
+                if (isset($config['use_old_security'])) {
+                    $systemPayBridge->setUseOldSecurity($config['use_old_security']);
+                }
 
                 return $systemPayBridge;
             };

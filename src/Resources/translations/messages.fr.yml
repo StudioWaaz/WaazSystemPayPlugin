@@ -8,3 +8,5 @@ waaz:
         production: Production
         test: Test
         simulation: Simulation
+        payment_cards: Moyens de paiement (Vide => tous les moyens de paiement éligibles)
+        use_old_security: Utilisez la sécurité SHA-1 obsolète pour le calcul de signature
