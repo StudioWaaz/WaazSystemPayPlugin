@@ -59,7 +59,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
      * @param array                    $waazSystemPayConfiguration
      */
     public function __construct(
-        $payum,
+        Payum $payum,
         SystemPayBridgeInterface $systemPayBridge,
         UrlGeneratorInterface $router,
         array $waazSystemPayConfiguration
