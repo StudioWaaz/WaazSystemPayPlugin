@@ -45,30 +45,16 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
     /**
      * @var UrlGeneratorInterface
      */
-    private $router;
+     private $router;
 
     /**
-     * @var array
+     * @param Payum $payum
      */
-    private $waazSystemPayConfiguration;
-
-    /**
-     * @param Payum                    $payum
-     * @param SystemPayBridgeInterface $systemPayBridge
-     * @param UrlGeneratorInterface    $router
-     * @param array                    $waazSystemPayConfiguration
-     */
-    public function __construct(
-        Payum $payum,
-        SystemPayBridgeInterface $systemPayBridge,
-        UrlGeneratorInterface $router,
-        array $waazSystemPayConfiguration
-    )
+    public function __construct(Payum $payum, SystemPayBridgeInterface $systemPayBridge, UrlGeneratorInterface $router)
     {
         $this->payum = $payum;
         $this->systemPayBridge = $systemPayBridge;
         $this->router = $router;
-        $this->waazSystemPayConfiguration = $waazSystemPayConfiguration;
     }
 
     /**
@@ -135,14 +121,8 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         $automaticResponseUrl = $notifyToken->getTargetUrl();
         $currencyCode = $payment->getCurrencyCode();
 
-        $targetUrl = $this->router->generate($this->waazSystemPayConfiguration['payment']['target_route'], [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $cancelRouteParameters = [];
-
-        if ('sylius_shop_order_show' === $this->waazSystemPayConfiguration['payment']['cancel_route']) {
-            $cancelRouteParameters = ['tokenValue' => $payment->getOrder()->getTokenValue()];
-        }
-
-        $cancelUrl = $this->router->generate($this->waazSystemPayConfiguration['payment']['cancel_route'], $cancelRouteParameters, UrlGeneratorInterface::ABSOLUTE_URL);
+        $targetUrl = $this->router->generate('sylius_shop_order_thank_you', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $cancelUrl = $this->router->generate('sylius_shop_order_show', ['tokenValue' => $payment->getOrder()->getTokenValue()], UrlGeneratorInterface::ABSOLUTE_URL);
 
         //$targetUrl = $request->getToken()->getTargetUrl();
         $amount = $payment->getAmount();

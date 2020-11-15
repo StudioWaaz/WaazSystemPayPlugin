@@ -20,7 +20,6 @@ services:
             - '@payum'
             - '@waaz.system_pay.bridge.system_pay_bridge'
             - '@router'
-            - '%waaz_system_pay%'
         tags:
             - { name: payum.action, factory: system_pay, alias: payum.action.capture }
 
