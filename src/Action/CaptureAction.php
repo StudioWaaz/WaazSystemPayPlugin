@@ -101,7 +101,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface
         /** @var TokenInterface $token */
         $token = $request->getToken();
 
-        $transactionReference = isset($model['transactionReference']) ? $model['transactionReference'] : null;
+        $transactionReference = $model['transactionReference'] ?? null;
 
         if ($transactionReference !== null) {
 
